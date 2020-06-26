@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  node:
+    build:
+      context: ./docker/node
+    volumes:
+      - ./firebase-blog:/app/firebase-blog:cached
+    container_name: node-front
+    tty: true
+    working_dir: /app/firebase-blog
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=0.0.0.0
+  # firestore:
+  #   image: firestore
+  #   depends_on: 
+  #     - node
+  #     - firestore-saver
+  #   build:
+  #     context: ./docker/firebase/firestore
+  #   volumes:
+  #     - ./HarborsAdmin:/app/HarborsAdmin:cached
+  #     - ./docker/firebase/firestore_export:/app/HarborsAdmin/firestore_export
+  #     - ./docker/firebase/firestore/emulator_cache:/root/.cache      
+  #   container_name: firestore
+  #   tty: true
+  #   working_dir: /app/HarborsAdmin
+  #   ports:
+  #     - "8080:8080"
+  #     - "4000:4000"
+  #   environment:
+  #     - HOST=0.0.0.0
+  #     - TOKEN=${TOKEN}
+  #     - PROJECT_ALIAS=${PROJECT_ALIAS}
+  #   command: /bin/bash run.sh
+  # firestore-saver:
+  #   build:
+  #     context: ./docker/firebase/firestore_saver
+  #   container_name: firestore-saver
+  #   environment:
+  #     - PROJECT_ID=${PROJECT_ID}
+  #     - FIRESTORE_EMULATOR_HOST=firestore:8080
+  #   volumes:
+  #     - ./docker/firebase/firestore_export:/firebase
+  #   command: /bin/bash start.sh
